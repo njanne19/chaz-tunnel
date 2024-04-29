@@ -1,0 +1,27 @@
+services: 
+  mainServer: 
+    build: 
+      context: ./ 
+      dockerfile: dummyController.dockerfile 
+    container_name: mainServer 
+    networks: 
+      mynet: 
+        ipv4_address: 172.20.0.2
+
+  computeNode: 
+    build: 
+      context: ./
+      dockerfile: dummyController.dockerfile 
+    container_name: computeNode 
+    networks: 
+      mynet: 
+        ipv4_address: 172.20.0.3
+    deploy: 
+      replicas: 1 # Increase number with --scale 
+
+networks: 
+  mynet: 
+    driver: bridge
+    ipam: 
+      config: 
+        - subnet: 172.20.0.0/16
