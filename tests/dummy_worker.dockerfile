@@ -20,4 +20,15 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 EXPOSE 22
 
 # Run the SSH server
-CMD ["/usr/sbin/sshd", "-D"]
+RUN /usr/sbin/sshd
+
+# Then copy the worker_server directory and build/run it 
+WORKDIR /usr/src/app
+COPY ../worker_server . 
+RUN cargo build --release
+
+# Expose the port the app runs on
+EXPOSE 8080
+
+# Serve the app
+CMD ["target/release/worker_server"]
