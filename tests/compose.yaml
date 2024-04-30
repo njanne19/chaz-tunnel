@@ -1,27 +1,22 @@
 services: 
-  mainServer: 
+  main_server: 
     build: 
       context: ./ 
-      dockerfile: dummyController.dockerfile 
-    container_name: mainServer 
+      dockerfile: dummy_controller.dockerfile 
+    ports: 
+      - "2222:22" # Maps port 22 in the container to port 2222 on the host
     networks: 
-      mynet: 
-        ipv4_address: 172.20.0.2
+      - overlay_network 
 
-  computeNode: 
+  compute_node: 
     build: 
       context: ./
-      dockerfile: dummyController.dockerfile 
-    container_name: computeNode 
-    networks: 
-      mynet: 
-        ipv4_address: 172.20.0.3
+      dockerfile: dummy_worker.dockerfile 
     deploy: 
       replicas: 1 # Increase number with --scale 
+    networks: 
+      - overlay_network
 
 networks: 
-  mynet: 
+  overlay_network: 
     driver: bridge
-    ipam: 
-      config: 
-        - subnet: 172.20.0.0/16
