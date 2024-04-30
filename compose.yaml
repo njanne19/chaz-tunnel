@@ -12,6 +12,8 @@ services:
       dockerfile: ./tests/dummy_worker.dockerfile 
     deploy: 
       replicas: 1 # Increase number with --scale 
+    ports: 
+      - "6900-6942:22" # Maps port 22 in the container to port 6900-6942 on the host
     networks: 
       - overlay_network
 
