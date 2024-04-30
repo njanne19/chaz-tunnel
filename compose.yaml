@@ -1,8 +1,7 @@
 services: 
   main_server: 
     build: 
-      context: ./ 
-      dockerfile: dummy_controller.dockerfile 
+      dockerfile: ./tests/dummy_controller.dockerfile 
     ports: 
       - "2222:22" # Maps port 22 in the container to port 2222 on the host
     networks: 
@@ -10,8 +9,7 @@ services:
 
   compute_node: 
     build: 
-      context: ./
-      dockerfile: dummy_worker.dockerfile 
+      dockerfile: ./tests/dummy_worker.dockerfile 
     deploy: 
       replicas: 1 # Increase number with --scale 
     networks: 

@@ -1,11 +1,12 @@
 # Use an official Ubuntu base image
 FROM ubuntu:20.04
 
-# Install SSH server
+ARG DEBIAN_FRONTEND=noninteractive
+# Install SSH server, build essentials, curl
 # Make sshd directory (required for SSH)
 # Change default root password to root
 RUN apt-get update && \
-    apt-get install -y openssh-server sudo curl && \
+    apt-get install -y openssh-server build-essential curl && \
     mkdir /var/run/sshd && \
     echo 'root:root' | chpasswd
 
@@ -24,11 +25,10 @@ RUN /usr/sbin/sshd
 
 # Then copy the worker_server directory and build/run it 
 WORKDIR /usr/src/app
-COPY ../worker_server . 
-RUN cargo build --release
+COPY worker_server . 
 
 # Expose the port the app runs on
 EXPOSE 8080
 
 # Serve the app
-CMD ["target/release/worker_server"]
+CMD ["cargo", "run"]
