@@ -7,6 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Change default root password to root
 RUN apt-get update && \
     apt-get install -y openssh-server sudo curl && \
+    apt-get install -y iputils-ping arp-scan nmap net-tools && \
     mkdir /var/run/sshd && \
     echo 'root:root' | chpasswd
 
